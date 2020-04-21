@@ -1,0 +1,25 @@
+name: slack
+version: 0.1.0
+
+targets:
+  slack-cli:
+    main: src/cli/main.cr
+  slack-cli-dev:
+    main: src/cli/main.cr
+
+dependencies:
+  var:
+    github: maiha/var.cr
+  pretty:
+    github: maiha/pretty.cr
+
+development_dependencies:
+  shard:
+    github: maiha/shard.cr
+  try:
+    github: maiha/try.cr
+
+authors:
+  - maiha <maiha@wota.jp>
+
+license: MIT

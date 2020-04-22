@@ -1,6 +1,15 @@
 require "./method"
 
 module Slack::Api
+  class MethodNotFound < Exception
+    getter name : String
+    var path : String
+
+    def initialize(@name, @path = nil)
+      super("No API catalogs for [#{name}].")
+    end
+  end
+
   abstract class Catalog
     include Enumerable(Method)
 
@@ -32,7 +41,7 @@ module Slack::Api
           json = File.read(path)
           Method.from_json(json).tap{|v| v.name = name}
         else
-          raise "No API catalogs found for '#{name}'. (path: '#{path}')\nCheck <api_name> or <catalog_dir>."
+          raise MethodNotFound.new(name, path)
         end
       }
     end
@@ -44,7 +53,7 @@ module Slack::Api
         if try = methods[name]?
           try.get
         else
-          raise "No API catalogs for [#{name}]. If it's a new API, you can use it by specifying <catalog_dir>."
+          raise MethodNotFound.new(name)
         end
       }
     end

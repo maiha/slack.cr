@@ -3,8 +3,15 @@
 Simple CLI client to Slack API
 
 ```console
+$ slack-cli --ls profile
+team.profile.get
+users.profile.get
+
 $ slack-cli users.profile.get | jq .profile.email
 "maiha@wota.jp"
+
+$ slack-cli users.lookupByEmail -d email=maiha@wota.jp | jq .user.name
+"maiha"
 ```
 
 ## Usage
@@ -42,6 +49,19 @@ API
 Argument Example                 Required Description
 -------- ----------------------- -------- -------------------------------------------
 email    spengler@ghostbuster... Required An email address belonging to a user in ...
+```
+
+All API lists can be retrieved with the `--ls` option. Also, that list is filtered by ARG1.
+
+```console
+$ slack-cli --ls
+admin.apps.approve
+admin.apps.approved.list
+...
+
+$ slack-cli --ls users.list
+admin.users.list
+usergroups.users.list
 ```
 
 ## API Token

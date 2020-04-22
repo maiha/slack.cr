@@ -12,12 +12,12 @@ dependencies:
     github: maiha/var.cr
   pretty:
     github: maiha/pretty.cr
+  try:
+    github: maiha/try.cr
 
 development_dependencies:
   shard:
     github: maiha/shard.cr
-  try:
-    github: maiha/try.cr
 
 authors:
   - maiha <maiha@wota.jp>

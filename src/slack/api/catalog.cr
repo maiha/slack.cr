@@ -2,12 +2,22 @@ require "./method"
 
 module Slack::Api
   abstract class Catalog
+    include Enumerable(Method)
+
     var methods = Hash(String, Try(Method)).new
 
     def [](name : String) : Method
       try(name).get
     end
 
+    def each : Nil
+      methods.each do |name, try|
+        if method = try.get?
+          yield method
+        end
+      end
+    end
+    
     abstract def try(name : String) : Try(Method)
   end
 

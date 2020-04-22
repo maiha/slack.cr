@@ -8,11 +8,7 @@ class Slack::Api::Help
 
   def to_s(io : IO)
     name = @method.name? || "(no name)"
-    url  = "#{Slack::Client::URL}/api/#{@method.name?}"
-    io.puts "API"
-    io.puts "  %s (%s)" % [name, url]
-    io.puts "  #{@method.desc}"
-    io.puts
+    io.puts "%s (%s)" % [name, @method.desc]
 
     lines   = Array(Array(String)).new
     headers = %w(Argument Example Required Description)
@@ -23,6 +19,6 @@ class Slack::Api::Help
       desc     = Pretty.truncate(arg.desc   , size: compact? ? 40 : 1024)
       lines << [name, example, required, desc]
     end
-    io.puts Pretty.lines(lines, headers: headers, delimiter: " ")
+    io << Pretty.lines(lines, indent: "  ", headers: headers, delimiter: " ")
   end
 end

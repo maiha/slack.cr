@@ -42,13 +42,10 @@ How do you know the parameters of the API? Well, just add the `-h`!
 
 ```console
 $ slack-cli users.lookupByEmail -h 
-API
-  users.lookupByEmail (https://slack.com/api/users.lookupByEmail)
-  Find a user with an email address.
-
-Argument Example                 Required Description
--------- ----------------------- -------- -------------------------------------------
-email    spengler@ghostbuster... Required An email address belonging to a user in ...
+users.lookupByEmail (Find a user with an email address.)
+  Argument Example                 Required Description
+  -------- ----------------------- -------- -------------------------------------------
+  email    spengler@ghostbuster... Required An email address belonging to a user in ...
 ```
 
 All API lists can be retrieved with the `--ls` option. Also, that list is filtered by ARG1.

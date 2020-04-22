@@ -18,7 +18,7 @@ class Cli::Main
   var client  : Slack::Client = Slack::Client.new(ENV["SLACK_TOKEN"]?)
   var catalog : Slack::Api::Catalog = Slack::Api::StaticCatalog.bundled
   var method  : Slack::Api::Method = catalog[api]
-  var api     : String        = abort "No API is specified."
+  var api     : String        = raise ApiNotFound.new
   var args    = Array(String).new
   var params  = Hash(String, String).new
   var verbose = false
@@ -37,23 +37,8 @@ class Cli::Main
       execute!
     end
 
-  rescue dryrun : Slack::Dryrun
-    puts dryrun.inspect
-  rescue err : Slack::Api::MethodNotFound
-    msg = String.build do |s|
-      s.puts "#{err}" + (err.path? ? " (path: #{err.path})" : "")
-      s.puts
-      s.puts "Check that the API name is correct by searching for the following."
-      s.puts "  #{PROGRAM} --ls #{err.name}"
-      s.puts
-      s.puts "Or, if it's a new API, you can use it by specifying <catalog_dir>."
-      s.puts "  #{PROGRAM} -c path/to/methods"
-    end
-    STDERR.puts msg
-    exit 1
   rescue err
-    STDERR.puts err.to_s
-    exit 255
+    handle_error(err)
   end  
 end
 

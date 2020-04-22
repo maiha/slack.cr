@@ -81,10 +81,10 @@ gen/slack-api-docs:
 ### testing
 
 .PHONY: ci
-ci: check_version_mismatch test slack
+ci: check_version_mismatch gen test
 
 .PHONY: test
-test: spec
+test: slack-cli-dev spec
 
 .PHONY: spec
 spec:

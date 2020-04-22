@@ -2,7 +2,7 @@
 
 slack for [Crystal](http://crystal-lang.org/).
 
-- crystal: 0.33.0
+- crystal: 0.34.0
 
 ## Installation
 

@@ -14,10 +14,10 @@ class Cli::Main
       s.puts "#{err}" + (err.path? ? " (path: #{err.path})" : "")
       s.puts
       s.puts "Check that the API name is correct by searching for the following."
-      s.puts "  #{PROGRAM} --ls #{err.name}"
+      s.puts "  slack-cli --ls #{err.name}"
       s.puts
       s.puts "Or, if it's a new API, you can use it by specifying <catalog_dir>."
-      s.puts "  #{PROGRAM} -c path/to/methods"
+      s.puts "  slack-cli -c path/to/methods"
     end
     STDERR.puts msg
     exit 1

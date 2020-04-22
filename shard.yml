@@ -18,6 +18,8 @@ dependencies:
 development_dependencies:
   shard:
     github: maiha/shard.cr
+  shell:
+    github: maiha/shell.cr
 
 authors:
   - maiha <maiha@wota.jp>

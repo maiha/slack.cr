@@ -1,7 +1,7 @@
 class Cli::Main
   protected def build_parser
     OptionParser.new do |parser|
-      parser.banner = "usage: #{PROGRAM} [options...] <api> [<args>]"
+      parser.banner = "usage: slack-cli [options...] <api> [<args>]"
       parser.on("--ls", "List API names in catalog") { @command = Command::SHOW_APIS }
       parser.on("-a", "--token <token>", "Specify token without reading from ENV") {|v| client.token = v.presence }
       parser.on("-d", "--data <key=val>", "Specify parameters for API args") {|v| add_params(v) }

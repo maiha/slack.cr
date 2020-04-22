@@ -3,10 +3,6 @@
 Simple CLI client to Slack API
 
 ```console
-$ slack-cli --ls profile
-team.profile.get
-users.profile.get
-
 $ slack-cli users.profile.get | jq .profile.email
 "maiha@wota.jp"
 
@@ -28,7 +24,7 @@ If you want to call the `users.profile.get` API, just type it in!
 $ slack-cli users.profile.get
 ```
 
-API parameters can be specified by `-d <key>=<val>'option.
+API parameters can be specified by `-d <key>=<val>` option.
 For example, `users.lookupByEmail` API needs `email` parameter.
 
 ```console
@@ -63,15 +59,15 @@ usergroups.users.list
 
 ## API Token
 
-You can specify the *API TOKEN* in one of the following ways.
+You can specify the **API TOKEN** in one of the following ways.
 
 * by arg: `slack-cli --token XXXXX ...`
 * by env: `SLACK_TOKEN=XXXXX slack-cli ...`
 
 ## API Catalog
 
-slack-cli maintains a catalog of API information.
-The catalog is bundled with slack-cli and can only be executed with APIs registered in it.
+**slack-cli** maintains a catalog of API information.
+The catalog is bundled with **slack-cli** and can only be executed with APIs registered in it.
 The original data for API information uses the following
 * https://github.com/aki017/slack-api-docs
 

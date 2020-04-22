@@ -12,6 +12,7 @@ slack for [Crystal](http://crystal-lang.org/).
 dependencies:
   slack:
     github: maiha/slack
+    version: 0.3.0
 ```
 
 2. Run `shards install`

@@ -13,7 +13,7 @@ require "./main/**"
 require "../../gen/catalog"
 
 class Cli::Main
-  var command : Command       = Command::EXECUTE
+  var command : Proc(Nil)     = ->{ navigate }
   var parser  : OptionParser  = build_parser
   var client  : Slack::Client = Slack::Client.new(ENV["SLACK_TOKEN"]?)
   var catalog : Slack::Api::Catalog = Slack::Api::StaticCatalog.bundled
@@ -28,14 +28,7 @@ class Cli::Main
     @api  = ARGV.shift?
     @args = ARGV
 
-    case command
-    when .show_help?
-      show_help(exit: 0)
-    when .show_apis?
-      show_apis
-    when .execute?      
-      execute!
-    end
+    command.call
 
   rescue err
     handle_error(err)

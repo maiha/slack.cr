@@ -4,28 +4,30 @@ class Cli::Main
     puts dryrun.inspect
   end
 
+  protected def handle_error(err : ArgumentError)
+    STDERR.puts err.to_s
+    exit 1
+  end
+
   protected def handle_error(err : ApiNotFound)
     show_help("No API is specified.")
     exit 1
   end
 
   protected def handle_error(err : Slack::Api::MethodNotFound)
-    msg = String.build do |s|
-      s.puts "#{err}" + (err.path? ? " (path: #{err.path})" : "")
-      s.puts
-      s.puts "Check that the API name is correct by searching for the following."
-      s.puts "  slack-cli --ls #{err.name}"
-      s.puts
-      s.puts "Or, if it's a new API, you can use it by specifying <catalog_dir>."
-      s.puts "  slack-cli -c path/to/methods"
-    end
-    STDERR.puts msg
+    STDERR.puts "No API found for '#{err.name}'. See 'slack-cli --ls'."
     exit 1
+  end
+
+  protected def handle_error(err : Slack::Client::TokenNotFound)
+    STDERR.puts "No SLACK_TOKEN is specified. See 'slack-cli --help'."
+    exit 3
   end
 
   # default
   protected def handle_error(err)
-    STDERR.puts err.to_s
+    STDERR.puts(err.to_s.presence || err.class.name)
+    err.inspect_with_backtrace(STDERR) if verbose
     exit 255
   end
 end

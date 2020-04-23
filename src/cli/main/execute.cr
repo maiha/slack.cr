@@ -1,7 +1,5 @@
 class Cli::Main
   protected def execute!
-    client.token? || abort "Please specify <TOKEN> by arg: --token or env: SLACK_TOKEN"
-
     body = ""
     req  = client.request(method: method, params: params, body: body)
     res  = client.execute(req)

@@ -12,7 +12,7 @@ def shell : Shell::Seq
   LAST_SHELL[0]
 end
 
-def run(cmd, raw = false) : Shell::Seq
+def run(cmd : String, raw = false) : Shell::Seq
   cmd = cmd.gsub(/\s+/m, " ")
   cmd = cmd.sub(/slack-cli/, "#{SLACK_CLI}") unless raw
   Pretty.write(OUT_PATH, cmd)
@@ -23,7 +23,7 @@ def run(cmd, raw = false) : Shell::Seq
   return shell
 end
 
-def run!(cmd) : Shell::Seq
+def run!(cmd : String) : Shell::Seq
   LAST_SHELL[0] = run(cmd)
   shell.success? || fail(output)
   return shell

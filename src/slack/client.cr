@@ -30,10 +30,12 @@ class Slack::Client
     
   ######################################################################
   ### Accessor methods
-    
-  def authorized?
-    return false if token.empty?
-    return true
+
+  class TokenNotFound < Exception
+  end
+
+  def authorize!
+    token?.presence || raise TokenNotFound.new
   end
 
   def url=(v : String)

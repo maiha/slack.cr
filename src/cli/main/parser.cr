@@ -2,7 +2,7 @@ class Cli::Main
   protected def build_parser
     OptionParser.new do |parser|
       parser.banner = "usage: slack-cli [options...] <api> [<args>]"
-      parser.on("--ls", "List API names in catalog") { @command = Command::SHOW_APIS }
+      parser.on("--ls", "List API names in catalog") { @command = ->{ show_apis } }
       parser.on("-a", "--token <token>", "Specify token without reading from ENV") {|v| client.token = v.presence }
       parser.on("-d", "--data <key=val>", "Specify parameters for API args") {|v| add_params(v) }
       parser.on("--dns-timeout <seconds>"    , "Maximum time allowed for DNS lookup") {|v| client.dns_timeout = v.to_f64 }
@@ -12,7 +12,7 @@ class Cli::Main
       parser.on("-n", "--dryrun" , "Dryrun mode"   ) { client.dryrun = true }
       parser.on("-v", "--verbose", "Verbose mode"  ) { self.verbose = true }
       parser.on("-V", "--version", "Show version"  ) { show_version; exit(0) }
-      parser.on("-h", "--help"   , "Show this help") { @command = Command::SHOW_HELP }
+      parser.on("-h", "--help"   , "Show this help") { @command = ->{ show_help } }
     end
   end
 

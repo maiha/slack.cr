@@ -34,10 +34,9 @@ module Slack::Executable
     # calculate runtime values before calling `before_execute`
     before_execute.each &.call(req)
 
-    if dryrun
-      raise Dryrun.new(req)
-    end
-
+    raise Dryrun.new(req) if dryrun
+    authorize!
+    
     http_client  = new_http_client(req.uri)
     http_request = new_http_request(req)
 

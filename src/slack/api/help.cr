@@ -1,24 +1,43 @@
 class Slack::Api::Help
   var compact = false
-  var show_token = false
   
   def initialize(@method : Method, compact : Bool? = nil)
     @compact = compact if !compact.nil?
   end
 
-  def to_s(io : IO)
-    name = @method.name? || "(no name)"
-    io.puts "%s (%s)" % [name, @method.desc]
+  def api : String
+    @method.name? || "(???)"
+  end
 
-    lines   = Array(Array(String)).new
-    headers = %w(Argument Example Required Description)
-    @method.args.each do |name, arg|
-      next if name == "token" && show_token? == false
-      required = arg.required ? "Required" : "Optional"
-      example  = Pretty.truncate(arg.example, size: compact? ? 20 : 1024)
-      desc     = Pretty.truncate(arg.desc   , size: compact? ? 40 : 1024)
-      lines << [name, example, required, desc]
+  def usage_parts : Array(String)
+    return ["slack-cli", api] + @method.named_args(token: false).map(&.to_s)
+  end
+
+  def usage : String
+    return "usage: " + usage_parts.join(" ")
+  end
+
+  def to_s(io : IO)
+    named_args = @method.named_args(token: false)
+
+    io.puts usage
+
+    io.puts
+    io.puts "parameters:"
+    lines = Array(Array(String)).new
+    named_args.each do |na|
+      name = na.name
+      desc = Pretty.truncate(na.arg.desc   , size: compact? ? 60 : 1024)
+      lines << [name, desc]
     end
-    io << Pretty.lines(lines, indent: "  ", headers: headers, delimiter: " ")
+    io.puts Pretty.lines(lines, indent: "    ", delimiter: "    ")
+
+    io.puts
+    io.puts "examples:"
+    io.puts "    slack-cli #{api} " + named_args.map{|na| "-d %s=%s" % [na.name, Pretty.truncate(na.arg.example, size: compact? ? 15 : 1024)]}.join(" ")
+    io.puts "    slack-cli #{api} " + named_args.map{|na| Pretty.truncate(na.arg.example, size: compact? ? 20 : 1024)}.join(" ")
+    if named_args.any?(&.arg.required) && named_args.any?{|na| !na.arg.required}
+      io.puts "    slack-cli #{api} " + named_args.select(&.arg.required).map{|na| Pretty.truncate(na.arg.example, size: compact? ? 20 : 1024)}.join(" ")
+    end
   end
 end

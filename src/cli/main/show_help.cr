@@ -1,5 +1,5 @@
 class Cli::Main
-  protected def show_help(msg : String? = nil, exit : Int32? = nil)
+  protected def show_help(msg : String? = nil, exit : Int32 = 0) : Nil
     if @api && method?
       puts Slack::Api::Help.new(method, compact: !verbose?)
     else
@@ -11,8 +11,6 @@ class Cli::Main
       puts msg
     end
 
-    if code = exit
-      exit(code)
-    end
+    exit(exit)
   end
 end

@@ -1,15 +1,6 @@
 require "./method"
 
 module Slack::Api
-  class MethodNotFound < Exception
-    getter name : String
-    var path : String
-
-    def initialize(@name, @path = nil)
-      super("No API catalogs for [#{name}].")
-    end
-  end
-
   abstract class Catalog
     include Enumerable(Method)
 
@@ -60,7 +51,11 @@ module Slack::Api
 
     def register_json(name, json)
       methods[name] = Try(Method).try {
-        Method.from_json(json).tap{|v| v.name = name}
+        begin
+          Method.from_json(json).tap{|v| v.name = name}
+        rescue err
+          raise "[BUG] parse error: #{name}.json (#{err})"
+        end
       }
     end
 

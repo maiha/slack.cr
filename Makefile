@@ -55,7 +55,7 @@ gen/catalog.cr:
 	@truncate -s 0 $@
 	@echo "def Slack::Api::StaticCatalog.bundled" >> $@
 	@echo "c = Slack::Api::StaticCatalog.new" >> $@
-	@(cd gen/catalog; (for api in *; do (echo "c.register_json(\"$${api}\", <<-EOF)"; cat "$${api}"; echo "EOF"); done)) >> $@
+	@(cd gen/catalog; (for api in *; do (echo "c.register_json(\"$${api}\", <<-'EOF')"; cat "$${api}"; echo "EOF"); done)) >> $@
 	@echo "c" >> $@
 	@echo "end" >> $@
 

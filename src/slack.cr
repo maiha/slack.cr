@@ -2,10 +2,11 @@
 require "csv"
 require "http"
 require "json"
+require "logger"
 
 ### shards
-require "var"
 require "pretty"
+require "var"
 require "try"
 
 require "./slack/**"

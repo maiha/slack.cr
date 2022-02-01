@@ -16,7 +16,7 @@ class Slack::Client
   var connect_timeout : Float64 = 5.0
   var read_timeout    : Float64 = 300.0
     
-  var logger : Pretty::Logger = Pretty::Logger.new(nil)
+  var logger : Logger = Logger.new(nil)
   var dryrun : Bool = false
 
   def initialize(@token, url : String? = nil, @logger : Logger? = nil)

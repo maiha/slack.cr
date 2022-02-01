@@ -4,7 +4,7 @@ module Slack::Api
   abstract class Catalog
     include Enumerable(Method)
 
-    var methods = Hash(String, Try(Method)).new
+    var methods = Hash(String, Success(Method) | Failure(Method)).new
 
     def [](name : String) : Method
       try(name).get
@@ -18,14 +18,14 @@ module Slack::Api
       end
     end
     
-    abstract def try(name : String) : Try(Method)
+    abstract def try(name : String) : Success(Method) | Failure(Method)
   end
 
   class DynamicCatalog < Catalog
     def initialize(@dir : String)
     end
 
-    def try(name : String) : Try(Method)
+    def try(name : String) : Success(Method) | Failure(Method)
       Try(Method).try {
         path = File.join(@dir, "#{name}.json")
         if File.exists?(path)
@@ -39,7 +39,7 @@ module Slack::Api
   end
 
   class StaticCatalog < Catalog
-    def try(name : String) : Try(Method)
+    def try(name : String) : Success(Method) | Failure(Method)
       Try(Method).try {
         if try = methods[name]?
           try.get

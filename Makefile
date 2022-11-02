@@ -9,13 +9,13 @@ release: slack-cli
 ######################################################################
 ### compiling
 
-# for mounting permissions in docker-compose
+# for mounting permissions in docker compose
 export UID = $(shell id -u)
 export GID = $(shell id -g)
 
 COMPILE_FLAGS=-Dstatic
 BUILD_TARGET=
-DOCKER=docker-compose run --rm crystal
+DOCKER=docker compose run --rm crystal
 
 .PHONY: build
 build:
